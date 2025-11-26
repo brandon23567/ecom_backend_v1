@@ -14,7 +14,7 @@ router = APIRouter(
     tags=["Authentication"]
 )
 
-@router.post("/admin/signup", status_code=status.HTTP_201_CREATED)
+@router.post("/admin/signup", status_code=status.HTTP_201_CREATED, response_model=DisplayAdminUserSchema)
 def signup_admin_user_route(
     db: Session = Depends(get_db),
     username: str = Form(..., description="username"),
@@ -31,7 +31,7 @@ def signup_admin_user_route(
     )
     
 
-@router.post("/admin/signin", status_code=status.HTTP_200_OK)
+@router.post("/admin/signin", status_code=status.HTTP_200_OK, response_model=UserTokensSchema)
 def signin_admin_user_route(
     user_data: SigninAdminUserSchema,
     db: Session = Depends(get_db)
@@ -42,7 +42,7 @@ def signin_admin_user_route(
     )
     
 
-@router.get("/admin/me", status_code=status.HTTP_200_OK)
+@router.get("/admin/me", status_code=status.HTTP_200_OK, response_model=CurrentUserSchema)
 def get_current_admin_user_route(
     db: Session = Depends(get_db),
     current_user_token: str = Depends(admin_oauth)
@@ -51,7 +51,7 @@ def get_current_admin_user_route(
 
 
 
-@router.post("/signup", status_code=status.HTTP_201_CREATED)
+@router.post("/signup", status_code=status.HTTP_201_CREATED, response_model=DisplayNonAdminUserSchema)
 def signup_nromal_user_route(
     db: Session = Depends(get_db),
     username: str = Form(..., description="username"),
@@ -68,7 +68,7 @@ def signup_nromal_user_route(
     )
     
 
-@router.post("/signin", status_code=status.HTTP_200_OK)
+@router.post("/signin", status_code=status.HTTP_200_OK, response_model=UserTokensSchema)
 def signin_normal_user_route(
     user_data: SigninNonAdminUserSchema,
     db: Session = Depends(get_db)
@@ -79,7 +79,7 @@ def signin_normal_user_route(
     )
 
 
-@router.get("/me", status_code=status.HTTP_200_OK)
+@router.get("/me", status_code=status.HTTP_200_OK, response_model=CurrentUserSchema)
 def get_current_normal_user_route(
     db: Session = Depends(get_db),
     current_user_token: str = Depends(user_oauth)

@@ -10,6 +10,7 @@ import cloudinary.uploader
 import cloudinary.api
 import json
 import bcrypt
+from .jwt_handeler import *
 
 load_dotenv()
 
@@ -136,7 +137,14 @@ def signin_admin_user(
                 detail="Invalid credentials used for login"
             )
             
-        return existing_admin_user_instance
+        user_tokens_data = {
+            "sub": existing_admin_user_instance.id,
+            "username": existing_admin_user_instance.username
+        }
+        
+        user_tokens = generate_user_tokens(user_tokens_data)
+            
+        return user_tokens
         
     except Exception as e:
         print(f"There was an error trying to signin the admin user: {str(e)}")
@@ -224,7 +232,14 @@ def signin_user(
                 detail="Invalid login credentials used"
             )
             
-        return existing_user_instance
+        user_tokens_data = {
+            "sub": existing_user_instance.id,
+            "username": existing_user_instance.username
+        }
+        
+        user_tokens = generate_user_tokens(user_tokens_data)
+            
+        return user_tokens
         
     except Exception as e:
         print(f"There was an error trying to signin the suer: {str(e)}")

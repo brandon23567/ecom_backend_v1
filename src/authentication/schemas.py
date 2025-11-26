@@ -65,3 +65,11 @@ class UserTokensSchema(BaseModel):
     
     class Config:
         from_attributes = True 
+        
+
+class CurrentUserSchema(BaseModel):
+    user_id: str
+    username: str 
+    
+    class Config:
+        from_attributes = True
