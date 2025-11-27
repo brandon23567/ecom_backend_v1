@@ -15,6 +15,8 @@ class AdminUserModel(Base):
     role = Column(String, default="admin")
     date_created = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     
+    products = relationship("ProductModel", back_populates="admin_user")
+    
     
 class UserModel(Base):
     __tablename__ = "users"
